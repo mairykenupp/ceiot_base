@@ -165,8 +165,19 @@ Por algún motivo que ignoro, la instalación no usa todo el espacio disponible,
      git config --global alias.lola "log --graph --decorate --pretty=oneline --abbrev-commit --all"
      git config --global alias.lolg "log --graph --decorate --pretty=format:'%Cgreen %ci %Cblue %h %Cred %d %Creset %s'"
 
+## Opcional: Conexión a WiFi
 
-## Paso 2: Fork del proyecto
+    sudo apt install network-manager
+
+```
+Conectar adaptador WiFi-USB y asociar en el menú de VBox -> Devices
+```
+
+   nmcli d wifi connect my_wifi password <password> 
+   
+https://ubuntu.com/core/docs/networkmanager/configure-wifi-connections
+
+## Paso 2: Versionamiento del proyecto
 
 ### Generación SSH keys
 
@@ -193,6 +204,16 @@ En la interfaz web de github (tomado de https://docs.github.com/articles/generat
 # Es el botón de arriba a la derecha, "Fork", dejar mismo nombre y opciones, "Create Fork".
 ```
      git clone git@github.com:xxxx/ceiot_base.git
+     
+Si aparece algo como
+```
+The authenticity of host 'github.com (20.201.28.151)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])?
+```
+
+darle "yes", está ok
 
 ### Prueba
 
@@ -332,7 +353,7 @@ sudo apt install jq shunit2
 
 En alguna terminal libre
 
-    cd ~/ceiot_base/tools
+    cd ~/ceiot_base/tools/test
     ./test.sh
 
 Esperamos
@@ -554,20 +575,31 @@ Dependiendo del modelo, puede hacer falta oprimir los botones para el paso **fla
 
 #### Microcontrolador ESP8266 con sensor DHT11
 
-Instalación y configuración Arduino IDE
+Instalación y configuración Arduino IDE, elegir una versión
 
 ```
-# Descargar de https://www.arduino.cc/en/software
+# Descargar la versión 1.x.x (legacy) de https://www.arduino.cc/en/software
 ```
-cd ~/esp
-tar -xf ../Downloads/arduino-x.x.xx-linux64.tar.xz
-./arduino-x.x.xx/arduino
+    cd ~/esp
+    tar -xf ../Downloads/arduino-x.x.xx-linux64.tar.xz
+    ./arduino-x.x.xx/arduino
+```
+
+
+```
+# Descargar la versión 2.x.x de https://www.arduino.cc/en/software
+```
+    sudo apt install zip
+    cd ~/esp
+    unzip ../Downloads/arduino-ide_2.x.x_Linux_64bit.zip
+    cd arduino-ide_2.x.x_Linux_64bit
+    ./arduino-ide
 ```
 # File -> preferences -> Additional Boars Manager URLs
-# http://arduino.esp8266.com/stable/package_esp8266com_index.json
+# https://arduino.esp8266.com/stable/package_esp8266com_index.json
 # Tools -> Board -> Board Manager -> search esp8266 -> esp8266 by ESP8266 Community -> install
-# Tools -> Board ->ESP8266 Generic Module
-# Tools -> Manage Libraries -> search dht sensor -> DHT sensor library for ESPx -> install
+# Tools -> Board -> ESP8266 Generic Module
+# Tools -> Manage Libraries -> search dht sensor -> DHT sensor library for ESPx by beegee_tokyo -> install
 ```
 
 Build y flash del proyecto

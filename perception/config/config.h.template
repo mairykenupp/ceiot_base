@@ -4,10 +4,10 @@
 #define API_PORT      "8080"
 #define API_IP_PORT   API_IP ":" API_PORT
 
-#define WIFI_SSID     ""
-#define WIFI_PASSWORD ""
+#define WIFI_SSID     "KNPP"
+#define WIFI_PASSWORD "ZLWZ1716"
 
-#define DEVICE_ID     ""
+#define DEVICE_ID     "Sensor 1"
 
 
 // esp32-dht11 
@@ -27,9 +27,9 @@
 // #define USER_AGENT    "esp-idf/1.0 esp32c3"
 
 // esp32-bmp280 
-// #define SDA_GPIO     21
-// #define SCL_GPIO     22
-// #define USER_AGENT   "esp-idf/1.0 esp32c3"
+#define SDA_GPIO     21
+#define SCL_GPIO     22
+#define USER_AGENT   "esp-idf/1.0 esp32c3"
 
 
 #define _config_

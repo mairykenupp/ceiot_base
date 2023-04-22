@@ -116,16 +116,43 @@ void loop() {
    //printLocalTime();
   Serial.println("--------------------");
 
-  //StaticJsonBuffer<200> jsonBuffer; //arduinojson versao 5
-  StaticJsonDocument<200> doc; 
-  char json[] = "{\"temperature\":\"pressure\":\"altitude}";
-  //JsonObject& root = json.Buffer.parseObject(json); //arduinojson versao 5
-  JsonObject root = deserializeJson(doc, json);
-  double temperature = root["data"][0];
-  double pressure = root["data"][1];
-  double altitude = root["data"][2];
+  long rnd = random(1,10);
+  HTTPClient client;
 
-  Serial.println(root);
+  client.begin("http://jsonplaceholder.typicode.com/comments?id=" + String(rnd));
+  int httpCode = client.GET();
+
+  if (httpCode > 0) {
+    String payload = client.getString();
+    Serial.println("\Statuscode: " + String(httpCode));
+    Serial.println(payload);
+
+    char json[500];
+    payload.replace(" ","");
+    payload.replace("\n", "");
+    payload.trim();
+    payload.remove(0,1);
+    payload.toCharArray(json, 500);
+
+    StaticJsonDocument<200> doc;
+    deserializeJson(doc, json);
+
+    int id = doc["id"];
+    const char* email = doc["email"];
+  }
+  else {
+    Serial.println("Erro ao requisitar HTTP");
+  }
+  //StaticJsonBuffer<200> jsonBuffer; //arduinojson versao 5
+  //StaticJsonDocument<200> doc; 
+  //char json[] = "{\"temperature\":\"pressure\":\"altitude}";
+  //JsonObject& root = json.Buffer.parseObject(json); //arduinojson versao 5
+  //JsonObject root = deserializeJson(doc, json);
+  //double temperature = root["data"][0];
+ // double pressure = root["data"][1];
+  //double altitude = root["data"][2];
+
+  //Serial.println(root);
 
 
 //print timestamp com base no void setupDateTime()
